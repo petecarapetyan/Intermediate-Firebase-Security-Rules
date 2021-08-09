@@ -169,26 +169,26 @@ describe ("my first test", () => {
     await firebase.assertSucceeds(testDoc.set({content: "some content", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
   })
 
-  // it("create not allowed when author listed is not same as user", async () => {
-  //   const POST_PATH = `posts/post_123`;
-  //   const db = getFirestore(THEIR_AUTH)
-  //   const testDoc = db.doc(POST_PATH)
-  //   await firebase.assertFails(testDoc.set({content: "some content", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
-  // })
+  it("create not allowed when author listed is not same as user", async () => {
+    const POST_PATH = `posts/post_123`;
+    const db = getFirestore(THEIR_AUTH)
+    const testDoc = db.doc(POST_PATH)
+    await firebase.assertFails(testDoc.set({content: "some content", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
+  })
 
-  // it("cannot create missing some required fields", async () => {
-  //   const POST_PATH = `posts/post_123`;
-  //   const db = getFirestore(MY_AUTH)
-  //   const testDoc = db.doc(POST_PATH)
-  //   await firebase.assertFails(testDoc.set({content: "Lorem Ipsum", authorId: MY_UID, headline: "Interesting Post"}));
-  // })
+  it("cannot create missing some required fields", async () => {
+    const POST_PATH = `posts/post_123`;
+    const db = getFirestore(MY_AUTH)
+    const testDoc = db.doc(POST_PATH)
+    await firebase.assertFails(testDoc.set({content: "Lorem Ipsum", authorId: MY_UID, headline: "Interesting Post"}));
+  })
 
-  // it("can create when have required fields", async () => {
-  //   const POST_PATH = `posts/post_123`;
-  //   const db = getFirestore(MY_AUTH)
-  //   const testDoc = db.doc(POST_PATH)
-  //   await firebase.assertSucceeds(testDoc.set({content: "Lorem Ipsum", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
-  // })
+  it("can create when have required fields", async () => {
+    const POST_PATH = `posts/post_123`;
+    const db = getFirestore(MY_AUTH)
+    const testDoc = db.doc(POST_PATH)
+    await firebase.assertSucceeds(testDoc.set({content: "Lorem Ipsum", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
+  })
 })
 
 after( async() => {
