@@ -189,6 +189,23 @@ describe ("my first test", () => {
     const testDoc = db.doc(POST_PATH)
     await firebase.assertSucceeds(testDoc.set({content: "Lorem Ipsum", authorId: MY_UID, visibility: "public", headline: "Interesting Post"}));
   })
+  it("can edit a post with allowed fields", async () => {
+    const POST_PATH = `posts/post_123`;
+    const admin = getAdminFirestore();
+    await admin.doc(POST_PATH).set({content: "before content", authorId: MY_UID, visibility: "public", headline: "before_headline"})
+    const db = getFirestore(MY_AUTH)
+    const testDoc = db.doc(POST_PATH)
+    await firebase.assertSucceeds(testDoc.update({content: "after", visibility: 'private'}));
+  })
+
+  it("cannot edit a post with unallowed fields", async () => {
+    const POST_PATH = `posts/post_123`;
+    const admin = getAdminFirestore();
+    await admin.doc(POST_PATH).set({content: "before content", authorId: MY_UID, visibility: "public", headline: "before_headline"})
+    const db = getFirestore(MY_AUTH)
+    const testDoc = db.doc(POST_PATH)
+    await firebase.assertFails(testDoc.update({content: "after", visibility: 'private', headline: "after_headline"}));
+  })
 })
 
 after( async() => {
